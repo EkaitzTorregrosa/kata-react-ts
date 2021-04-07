@@ -1,66 +1,96 @@
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
+import { datosMercancia } from "./logica-beneficio";
+import { Component } from "react";
 
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.css'
-import {datosMercancia} from './logica-beneficio';
+class App extends Component {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      kgVieira: "",
+      kgPulpo: "",
+      kgCentollo: "",
+    };
 
-function App() {
-  function handleSubmit(event:any) {
-    event.preventDefault()
+    this.handleChangeVieira = this.handleChangeVieira.bind(this);
+    this.handleChangePulpo = this.handleChangePulpo.bind(this);
+    this.handleChangeCentollo = this.handleChangeCentollo.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+  handleChangeVieira(e: any) {
+    this.setState({ kgVieira: e.target.value });
+  }
+  handleChangePulpo(e: any) {
+    this.setState({ kgPulpo: e.target.value });
+  }
+  handleChangeCentollo(e: any) {
+    this.setState({ kgCentollo: e.target.value });
+  }
+
+  handleSubmit(event: any) {
     alert(
       datosMercancia(
-        event.target.kgVieira.value,
-        event.target.kgPulpo.value,
-        event.target.kgCentollo.value
+        this.state.kgVieira,
+        this.state.kgPulpo,
+        this.state.kgCentollo
       )
-    )
+    );
+    event.preventDefault();
   }
-  return (
-    <div className="container mt-5 col-6">
-      <form onSubmit={handleSubmit}>
-        <div className="row mb-3">
-          <label htmlFor="vieiraKg" className="col-sm-2 col-form-label">Vieira KG:</label>
-          <div className="col-sm-10">
-            <input
-              id="vieiraKg"
-              type="text"
-              pattern="[0-9]*"
-              required={true}
-              name="kgVieira"
-              className="form-control"
-            />
+  render() {
+    return (
+      <div className="container mt-5 col-6">
+        <form onSubmit={this.handleSubmit}>
+          <div className="row mb-3">
+            <label htmlFor="vieiraKg" className="col-sm-2 col-form-label">
+              Vieira KG:
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                pattern="[0-9]*"
+                required={true}
+                className="form-control"
+                onChange={this.handleChangeVieira}
+              />
+            </div>
           </div>
-        </div>
-        <div className="row mb-3">
-          <label htmlFor="pulpoKg" className="col-sm-2 col-form-label">Pulpo KG:</label>
-          <div className="col-sm-10">
-            <input
-              id="pulpoKg"
-              type="text"
-              pattern="[0-9]*"
-              required={true}
-              name="kgPulpo"
-              className="form-control"
-            />
+          <div className="row mb-3">
+            <label htmlFor="pulpoKg" className="col-sm-2 col-form-label">
+              Pulpo KG:
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                pattern="[0-9]*"
+                required={true}
+                className="form-control"
+                onChange={this.handleChangePulpo}
+              />
+            </div>
           </div>
-        </div>
-        <div className="row mb-3">
-          <label htmlFor="centolloKg" className="col-sm-2 col-form-label">Centollo KG:</label>
-          <div className="col-sm-10">
-            <input
-              id="centolloKg"
-              type="text"
-              pattern="[0-9]*"
-              required={true}
-              name="kgCentollo"
-              className="form-control"
-            />
+          <div className="row mb-3">
+            <label htmlFor="centolloKg" className="col-sm-2 col-form-label">
+              Centollo KG:
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                pattern="[0-9]*"
+                required={true}
+                className="form-control"
+                onChange={this.handleChangeCentollo}
+              />
+            </div>
           </div>
-        </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
-      </form>
-    </div>
-  )
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default App;
