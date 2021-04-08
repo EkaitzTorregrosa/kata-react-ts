@@ -1,96 +1,87 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { datosMercancia } from "./logica-beneficio";
-import { Component } from "react";
+import { useState, useEffect } from "react";
 
-class App extends Component {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      kgVieira: "",
-      kgPulpo: "",
-      kgCentollo: "",
-    };
+export default function App() {
+  const [cantVieiras, setCantVieiras] = useState(0);
+  const [cantPulpo, setCantPulpo] = useState(0);
+  const [cantCentollo, setCantCentollo] = useState(0);
+  const [isWithValue, setIsValue] = useState(false);
 
-    this.handleChangeVieira = this.handleChangeVieira.bind(this);
-    this.handleChangePulpo = this.handleChangePulpo.bind(this);
-    this.handleChangeCentollo = this.handleChangeCentollo.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  useEffect(() => {
+    if (isWithValue) {
+      alert(datosMercancia(cantVieiras, cantPulpo, cantCentollo));
+      setIsValue(false);
+    }
+  }, [isWithValue]);
 
-  handleChangeVieira(e: any) {
-    this.setState({ kgVieira: e.target.value });
-  }
-  handleChangePulpo(e: any) {
-    this.setState({ kgPulpo: e.target.value });
-  }
-  handleChangeCentollo(e: any) {
-    this.setState({ kgCentollo: e.target.value });
-  }
-
-  handleSubmit(event: any) {
-    alert(
-      datosMercancia(
-        this.state.kgVieira,
-        this.state.kgPulpo,
-        this.state.kgCentollo
-      )
-    );
+  function handleSubmit(event: any) {
     event.preventDefault();
-  }
-  render() {
-    return (
-      <div className="container mt-5 col-6">
-        <form onSubmit={this.handleSubmit}>
-          <div className="row mb-3">
-            <label htmlFor="vieiraKg" className="col-sm-2 col-form-label">
-              Vieira KG:
-            </label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                pattern="[0-9]*"
-                required={true}
-                className="form-control"
-                onChange={this.handleChangeVieira}
-              />
-            </div>
-          </div>
-          <div className="row mb-3">
-            <label htmlFor="pulpoKg" className="col-sm-2 col-form-label">
-              Pulpo KG:
-            </label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                pattern="[0-9]*"
-                required={true}
-                className="form-control"
-                onChange={this.handleChangePulpo}
-              />
-            </div>
-          </div>
-          <div className="row mb-3">
-            <label htmlFor="centolloKg" className="col-sm-2 col-form-label">
-              Centollo KG:
-            </label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                pattern="[0-9]*"
-                required={true}
-                className="form-control"
-                onChange={this.handleChangeCentollo}
-              />
-            </div>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
 
-export default App;
+    setCantVieiras(parseFloat(event.target.elements.vieiras.value));
+    setCantPulpo(parseFloat(event.target.elements.pulpos.value));
+    setCantCentollo(parseFloat(event.target.elements.centollos.value));
+
+    setIsValue(true);
+
+    limpiarInputs(event);
+  }
+  function limpiarInputs(event: any) {
+    event.target.elements.vieiras.value = "";
+    event.target.elements.pulpos.value = "";
+    event.target.elements.centollos.value = "";
+  }
+
+  return (
+    <div className="container mt-5 col-6">
+      <form onSubmit={handleSubmit}>
+        <div className="row mb-3">
+          <label htmlFor="vieiraKg" className="col-sm-2 col-form-label">
+            Vieira KG:
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              name="vieiras"
+              pattern="[0-9]*"
+              required={true}
+              className="form-control"
+            />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <label htmlFor="pulpoKg" className="col-sm-2 col-form-label">
+            Pulpo KG:
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              name="pulpos"
+              pattern="[0-9]*"
+              required={true}
+              className="form-control"
+            />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <label htmlFor="centolloKg" className="col-sm-2 col-form-label">
+            Centollo KG:
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              name="centollos"
+              pattern="[0-9]*"
+              required={true}
+              className="form-control"
+            />
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+}
