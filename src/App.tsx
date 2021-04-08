@@ -1,7 +1,9 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { datosMercancia } from "./logica-beneficio";
+import { ciudadConMayorBeneficio } from "./logica-beneficio";
 import { useState, useEffect } from "react";
+
+/* Author: Ekaitz Torregrosa */
 
 export default function App() {
   const [cantVieiras, setCantVieiras] = useState(0);
@@ -11,7 +13,7 @@ export default function App() {
 
   useEffect(() => {
     if (isWithValue) {
-      alert(datosMercancia(cantVieiras, cantPulpo, cantCentollo));
+      alert(ciudadConMayorBeneficio(cantVieiras, cantPulpo, cantCentollo));
       setIsValue(false);
     }
   }, [isWithValue]);
