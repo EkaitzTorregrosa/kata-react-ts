@@ -7,13 +7,19 @@ export function FormularioPesos() {
   const [cantPulpo, setCantPulpo] = useState(0);
   const [cantCentollo, setCantCentollo] = useState(0);
   const [isWithValue, setIsValue] = useState(false);
-  let msg: string = "";
+  let msgCiudadMayorBeneficio: string = "";
 
   useEffect(() => {
     if (isWithValue) {
-      msg = ciudadConMayorBeneficio(cantidadVieiras, cantPulpo, cantCentollo);
+      msgCiudadMayorBeneficio = ciudadConMayorBeneficio(
+        cantidadVieiras,
+        cantPulpo,
+        cantCentollo
+      );
       // @ts-ignore: Object is possibly 'null'.
-      document.getElementById("msgFinal").innerHTML = msg;
+      document.getElementById(
+        "msgCiudadMayorBeneficio"
+      ).innerHTML = msgCiudadMayorBeneficio;
 
       setIsValue(false);
     }
@@ -85,7 +91,11 @@ export function FormularioPesos() {
           Submit
         </button>
       </form>
-      <div id="msgFinal" className="m-5" style={{ color: "green" }}></div>
+      <div
+        id="msgCiudadMayorBeneficio"
+        className="m-5"
+        style={{ color: "green" }}
+      ></div>
     </div>
   );
 }
