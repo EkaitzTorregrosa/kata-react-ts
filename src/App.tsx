@@ -16,7 +16,7 @@ export default function App() {
       alert(ciudadConMayorBeneficio(cantVieiras, cantPulpo, cantCentollo));
       setIsValue(false);
     }
-  }, [isWithValue]);
+  });
 
   function handleSubmit(event: any) {
     event.preventDefault();
