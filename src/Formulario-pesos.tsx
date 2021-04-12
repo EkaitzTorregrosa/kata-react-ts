@@ -4,17 +4,18 @@ import { useState, useEffect } from "react";
 
 export function FormularioPesos() {
   const [cantidadVieiras, setCantidadVieiras] = useState(0);
-  const [cantPulpo, setCantPulpo] = useState(0);
-  const [cantCentollo, setCantCentollo] = useState(0);
+  const [cantidadPulpo, setCantidadPulpo] = useState(0);
+  const [cantidadCentollo, setCantidadCentollo] = useState(0);
   const [isWithValue, setIsValue] = useState(false);
+  const [hasResult, setHasResult] = useState(false);
   let msgCiudadMayorBeneficio: string = "";
 
   useEffect(() => {
     if (isWithValue) {
       msgCiudadMayorBeneficio = ciudadConMayorBeneficio(
-        cantidadVieiras,
-        cantPulpo,
-        cantCentollo
+        isNaN(cantidadVieiras) ? 0 : cantidadVieiras,
+        isNaN(cantidadPulpo) ? 0 : cantidadPulpo,
+        isNaN(cantidadCentollo) ? 0 : cantidadCentollo
       );
       // @ts-ignore: Object is possibly 'null'.
       document.getElementById(
@@ -25,37 +26,25 @@ export function FormularioPesos() {
     }
   }, [isWithValue]);
 
-  function handleSubmit(event: any) {
-    event.preventDefault();
-
-    setCantidadVieiras(parseFloat(event.target.elements.vieiras.value));
-    setCantPulpo(parseFloat(event.target.elements.pulpos.value));
-    setCantCentollo(parseFloat(event.target.elements.centollos.value));
-
-    setIsValue(true);
-
-    limpiarInputs(event);
-  }
-  function limpiarInputs(event: any) {
-    event.target.elements.vieiras.value = "";
-    event.target.elements.pulpos.value = "";
-    event.target.elements.centollos.value = "";
-  }
-
   return (
     <div className="container mt-5 col-6">
-      <form onSubmit={handleSubmit} id="formPesos">
+      <form id="formPesos">
         <div className="row mb-3">
           <label htmlFor="vieiraKg" className="col-sm-2 col-form-label">
             Vieira KG:
           </label>
           <div className="col-sm-10">
             <input
-              type="text"
+              type="number"
               name="vieiras"
-              pattern="[0-9]*"
               required={true}
               className="form-control"
+              onChange={(event) => {
+                setCantidadVieiras(parseFloat(event.target.value));
+                setIsValue(true);
+                setHasResult(true);
+              }}
+              defaultValue="0"
             />
           </div>
         </div>
@@ -65,11 +54,16 @@ export function FormularioPesos() {
           </label>
           <div className="col-sm-10">
             <input
-              type="text"
+              type="number"
               name="pulpos"
-              pattern="[0-9]*"
               required={true}
               className="form-control"
+              onChange={(event) => {
+                setCantidadPulpo(parseFloat(event.target.value));
+                setIsValue(true);
+                setHasResult(true);
+              }}
+              defaultValue="0"
             />
           </div>
         </div>
@@ -79,23 +73,26 @@ export function FormularioPesos() {
           </label>
           <div className="col-sm-10">
             <input
-              type="text"
+              type="number"
               name="centollos"
-              pattern="[0-9]*"
               required={true}
               className="form-control"
+              onChange={(event) => {
+                setCantidadCentollo(parseFloat(event.target.value));
+                setIsValue(true);
+                setHasResult(true);
+              }}
+              defaultValue="0"
             />
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
       </form>
-      <div
-        id="msgCiudadMayorBeneficio"
-        className="m-5"
-        style={{ color: "green" }}
-      ></div>
+      {hasResult && (
+        <div
+          id="msgCiudadMayorBeneficio"
+          className="m-5 alert alert-success"
+        ></div>
+      )}
     </div>
   );
 }
